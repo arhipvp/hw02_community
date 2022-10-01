@@ -1,13 +1,24 @@
-from django.http import HttpResponse
+from multiprocessing import context
+from re import template
 from django.shortcuts import render
 
 # Create your views here.
 def index(request):
     template = 'posts/index.html'
-    return render(request, template)
+    context={
+        'title': 'ЭТО тайтл из вьюхи',
+        'text': 'Это главная страница'
+    }
+    return render(request, template, context=context)
 
-def group_without_params(request):
-    return HttpResponse(f'Группировка без параметров')
+def groups(request):
+    template = 'posts/groups.html'
+    return render(request, template_name=template)
 
-def group_posts_with_params(request, params):
-    return HttpResponse(f'Группировка с параметрами: {params}')
+def group_list(request):
+    template = 'posts/group_list.html'
+    context={
+        'title': 'ЭТО тайтл из вьюхи',
+        'text': 'Здесь будет информация о группа проекта Yatube'
+    }
+    return render(request, template, context=context)
