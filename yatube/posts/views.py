@@ -1,24 +1,24 @@
-from multiprocessing import context
-from re import template
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from .models import Group, Post
 
 # Create your views here.
 def index(request):
+    posts = Post.objects.order_by('-pub_date')[:10]
     template = 'posts/index.html'
-    context={
-        'title': 'ЭТО тайтл из вьюхи',
-        'text': 'Это главная страница'
+    context = {
+        'title': 'Последние обновления на сайте',
+        'posts': posts,
     }
     return render(request, template, context=context)
 
-def groups(request):
-    template = 'posts/groups.html'
-    return render(request, template_name=template)
-
-def group_list(request):
+def group_posts(request, slug):
+    group = get_object_or_404(Group, slug=slug)
+    posts = Post.objects.filter(group=group).order_by('-pub_date')[:10]
     template = 'posts/group_list.html'
-    context={
-        'title': 'ЭТО тайтл из вьюхи',
-        'text': 'Здесь будет информация о группа проекта Yatube'
+    title = f'Записи сообщества {group.__str__()}'
+    context = {
+        'title': title,
+        'posts': posts,
     }
     return render(request, template, context=context)
+    

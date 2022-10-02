@@ -1,10 +1,33 @@
+{% load static %}
+<!DOCTYPE html> <!-- Используется html 5 версии -->
+<html lang="ru"> <!-- Язык сайта - русский -->
 {% include 'includes/header.html' %}
-
-{% block title %}
-{% endblock title %}
-
+  <body>
+    <header>
+      <!-- Использованы классы бустрапа для создания типовой навигации с логотипом -->
+      <!-- В дальнейшем тут будет создано полноценное меню -->
+      <nav class="navbar navbar-light" style="background-color: lightskyblue">
+        <div class="container">
+          <a class="navbar-brand" href= {% url 'posts:index' %}>
+            <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            <!-- тег span используется для добавления нужных стилей отдельным участкам текста -->
+            <span style="color:red">Ya</span>tube
+          </a>
+        </div>
+      </nav>      
+    </header>
+    <main> 
 {% block context %}
-...контекст не подвезли...
+      <!-- класс py-5 создает отступы сверху и снизу блока -->
+      <div class="container py-5">     
+      Контент не подвезли
+      </div>
 {% endblock context %}
-
+    </main>
+    <!-- Использованы классы бустрапа: -->
+    <!-- border-top: создаёт тонкую линию сверху блока -->
+    <!-- text-center: выравнивает текстовые блоки внутри блока по центру -->
+    <!-- py-3: контент внутри размещается с отступом сверху и снизу -->         
 {% include 'includes/footer.html' %}
+  </body>
+</html>
