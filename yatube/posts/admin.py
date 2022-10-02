@@ -4,10 +4,10 @@ from .models import Post, Group
 
 class PostAdmin(admin.ModelAdmin):
     list_display = (
-        'id',
+        'pk',
         'text',
         'pub_date',
-        'author_id',
+        'author',
         'group',
     )
     search_fields = ('text',)
