@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block context %}
-<div class="container">
+<h1> {{ title }} </h1>
+<br><hr>
 {% for post in posts %}
-{% if forloop.first %}<h1>{{ title }}</h1>{% endif %}
 <article>
 <ul>
     <li>
@@ -14,8 +14,7 @@
     </li>
 </ul>
 </article>
-<p> {{ post.text }} </p>
-<a href="{% url 'posts:index'%}group/{{ post.group.slug }}">все записи группы</a>
-{% if not forloop.last %} <hr> {% endif %}
+<p> {{ post.text | safe }} </p>
+<hr>
 {% endfor %}
 {% endblock context %}
