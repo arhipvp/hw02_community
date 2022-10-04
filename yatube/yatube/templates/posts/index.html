@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block context %}
+<h1> {{ title }} </h1>
+<br><hr>
+{% for post in posts %}
+<article>
+<ul>
+    <li>
+        Автор: {{ post.author.get_full_name }}
+    </li>
+    <li>
+        Дата публикации: {{ post.pub_date | date:"d E Y" }}
+    </li>
+</ul>
+</article>
+<p> {{ post.text | safe }} </p>
+<a href="{% url 'posts:index'%}group/{{ post.group.slug }}">все записи группы</a>
+{% if not forloop.last %} <hr> {% endif %}
+{% endfor %}
+{% endblock context %}
