@@ -37,7 +37,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts',
+        related_name="posts",
         verbose_name="Author",
         help_text="Автор",
     )
@@ -47,5 +47,8 @@ class Post(models.Model):
         null=True,
         blank=True,
         help_text="Группа поста",
-        related_name='Groups',
+        related_name="posts",
     )
+
+    def __str__(self) -> str:
+        return self.text

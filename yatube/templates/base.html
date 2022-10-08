@@ -2,15 +2,16 @@
 <!DOCTYPE html>
 <html lang="ru">
 {% include 'includes/header.html' %}
-  <body>
-    <div class="container">
+<title>
+  {% block title %}Тут должен быть Тайтл, но его больше нет{% endblock title %}
+</title>
+<body>
+  <div class="container">
     <main> 
-{% block context %}
-      <div class="container py-5">     
-      Контент не подвезли
-      </div>
-{% endblock context %}
+      {% block context %}
+        Контент не подвезли
+      {% endblock context %}
     </main>
-{% include 'includes/footer.html' %}
-  </body>
+  {% include 'includes/footer.html' %}
+</body>
 </html>

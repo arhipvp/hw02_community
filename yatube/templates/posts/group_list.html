@@ -1,20 +1,25 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    Записи сообщества {{ group.title }}
+{% endblock title %}
+
 {% block context %}
-<h1> {{ title }} </h1>
-<br><hr>
-{% for post in posts %}
-<article>
-<ul>
-    <li>
-        Автор: {{ post.author.get_full_name }}
-        
-    </li>
-    <li>
-        Дата публикации: {{ post.pub_date | date:"d E Y" }}
-    </li>
-</ul>
-</article>
-<p> {{ post.text | safe }} </p>
-<hr>
-{% endfor %}
+    <h1> Записи сообщества {{ group.title }} </h1>
+    <br><hr>
+    {% for post in posts %}
+    <article>
+    <ul>
+        <li>
+            Автор: {{ post.author.get_full_name }}
+            
+        </li>
+        <li>
+            Дата публикации: {{ post.pub_date | date:"d E Y" }}
+        </li>
+    </ul>
+    </article>
+    <p> {% filter linebreaksbr %} {{ post.text }} {% endfilter %} </p>
+    <hr>
+    {% endfor %}
 {% endblock context %}
