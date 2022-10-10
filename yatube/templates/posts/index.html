@@ -6,7 +6,6 @@
 
 {% block context %}
     <h1> Последние обновления на сайте </h1>
-    <br><hr>
     {% for post in posts %}
     <article>
     <ul>
@@ -18,10 +17,10 @@
         </li>
     </ul>
     </article>
-    <p> {% filter linebreaksbr %} {{ post.text }} {% endfilter %} </p>
+    <p> {{ post.text | linebreaksbr }} </p>
     {% if post.group.slug %}
         <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
     {% endif %}
     {% if not forloop.last %} <hr> {% endif %}
     {% endfor %}
-{% endblock context %}
+{% endblock %} {% comment %} а зачем убирать уточнение имени блока? А как же "Явное лучше, чем неявное?" :) {% endcomment %}

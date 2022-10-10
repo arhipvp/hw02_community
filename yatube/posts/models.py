@@ -25,6 +25,8 @@ class Group(models.Model):
 
 
 class Post(models.Model):
+    class Meta:
+        ordering = ["-pub_date"]
     text = models.TextField(
         verbose_name="Text Post",
         help_text="Текст поста",
