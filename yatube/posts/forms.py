@@ -16,5 +16,6 @@ class CreationForm(forms.ModelForm):
             'group': forms.ChoiceField(required=False, )
         }
 
+
 class PostForm(forms.BaseForm):
     'text'
