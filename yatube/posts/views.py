@@ -88,7 +88,6 @@ def post_edit(request, post_id):
             'is_edit': True,
         }
         
-        #ниже обновить пост, редиректнуть на просмотр поста
         return render(request, 'posts/create_post.html', context)
         #return HttpResponse(str(form.__dict__)+'____________________________'+str(post.__dir__()))
     
