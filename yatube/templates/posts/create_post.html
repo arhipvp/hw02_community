@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Новый пост{% endblock %}
+{% block title %}
+    {% if is_edit %}
+        Редактировать пост
+    {% else %}
+        Новый пост
+    {% endif %}
+{% endblock %}
 {% block context %}
 
 <form action="{% url 'posts:post_create' %}" method="post">
 {% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Добавить</button>
+{{ form }}
+<button type="submit" class="btn btn-primary">
+    {% if is_edit %}
+      Сохранить
+    {% else %}
+      Добавить
+    {% endif %}               
+  </button> 
+  
 </form>
 
 {% endblock %}

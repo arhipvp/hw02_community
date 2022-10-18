@@ -1,5 +1,7 @@
+from dataclasses import field
 from getpass import getuser
 from operator import ge
+from typing import Text
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -76,9 +78,19 @@ def post_create(request):
     return render(request, 'posts/create_post.html', context)
 
 def post_edit(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
     if (request.user.is_authenticated) and (Post.objects.get(id=post_id).author_id == request.user.id):
-        if request.method == 'POST':
-            
-        #вернуть апдейт поста
-        return HttpResponse('Проверка условия на юзера работает')
+        
+        form = CreationForm(instance=post)
+    
+        context = {
+            'form': form,
+            'is_edit': True,
+        }
+        
+        #ниже обновить пост, редиректнуть на просмотр поста
+        return render(request, 'posts/create_post.html', context)
+        #return HttpResponse(str(form.__dict__)+'____________________________'+str(post.__dir__()))
+    
+    #ниже все работает. Не трогать.
     return redirect('/posts/' + str(post_id))
