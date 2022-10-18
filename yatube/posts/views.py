@@ -77,8 +77,12 @@ def post_create(request):
 
 def post_edit(request, post_id):
     if (request.user.is_authenticated) and (Post.objects.get(id=post_id).author_id == request.user.id):
-        if request.method == 'POST':
-            
-        #вернуть апдейт поста
+        #ниже вернуть заполненную форму (данные выдернуть из post_id) для редактирования, форму и шаблон использовать из post_create (слегка допилить как задании)
+        
+        
+        
+        #ниже обновить пост, редиректнуть на просмотр поста
         return HttpResponse('Проверка условия на юзера работает')
+    
+    #ниже все работает. Не трогать.
     return redirect('/posts/' + str(post_id))
