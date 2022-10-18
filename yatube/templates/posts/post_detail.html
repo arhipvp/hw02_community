@@ -11,9 +11,12 @@
             {% if post.group %}
             <li class="list-group-item">
               Группа: {{ post.group }}
+              <li class="list-group-item">
               <a href="{% url 'posts:group_list' post.group.slug %}">
                 все записи группы
               </a>
+              </li>
+            </li>
               {% endif %}
             </li>
             <li class="list-group-item">
@@ -24,6 +27,9 @@
             </li>
             <li class="list-group-item">
                 <a href="{% url 'posts:profile' post.author %}">все посты пользователя</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'posts:post_edit' post.id %}">Решительно редактировать</a>
             </li>
           </ul>
         </aside>

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
+from django.contrib.auth.decorators import login_required
 from .forms import CreationForm
 from .models import Group, Post
 
@@ -59,12 +60,13 @@ def post_detail(request, post_id):
     return render(request, 'posts/post_detail.html', context)
 
 
+@login_required
 def post_create(request):
     if request.method == 'POST':
         form = CreationForm(request.POST)
         if form.is_valid():
             Post.objects.create(**form.cleaned_data, author=request.user)
-            return redirect('/profile/' + request.user.username)
+            return redirect('posts:profile', request.user.username)
     else:
         form = CreationForm()
     context = {
@@ -73,10 +75,11 @@ def post_create(request):
     return render(request, 'posts/create_post.html', context)
 
 
+@login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if post.author != request.user:
-        return redirect('/posts/' + str(post_id))
+        return redirect('posts:posts', post_id)
 
     if request.method == 'POST':
         form = CreationForm(request.POST)
@@ -86,7 +89,7 @@ def post_edit(request, post_id):
             post.id = post_id
             post.pub_date = datetime.datetime.now()
             post.save()
-            return redirect('posts:profile', request.user.username)
+            return redirect('posts:post_detail', post_id)
     else:
         form = CreationForm(instance=post)
 
@@ -97,3 +100,6 @@ def post_edit(request, post_id):
     }
 
     return render(request, 'posts/create_post.html', context)
+
+def self_profile(request):
+    return redirect('posts:profile', request.user.username)

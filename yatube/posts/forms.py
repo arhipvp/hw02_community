@@ -15,3 +15,6 @@ class CreationForm(forms.ModelForm):
             'text': forms.Textarea(attrs={'class': 'form-input', }),
             'group': forms.ChoiceField(required=False, )
         }
+
+class PostForm(forms.BaseForm):
+    'text'
