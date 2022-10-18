@@ -1,6 +1,8 @@
+import datetime
 from dataclasses import field
 from getpass import getuser
 from operator import ge
+from tokenize import group
 from typing import Text
 from django.core.paginator import Paginator
 from django.http import HttpResponse
@@ -68,7 +70,7 @@ def post_create(request):
     if request.method == 'POST':
         form = CreationForm(request.POST)
         if form.is_valid():
-            Post.objects.create(**form.cleaned_data, author_id=request.user.id)
+            Post.objects.create(**form.cleaned_data, author=request.user)
             return redirect('/profile/' + request.user.username)
     else:
         form = CreationForm()
@@ -79,17 +81,27 @@ def post_create(request):
 
 def post_edit(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if (request.user.is_authenticated) and (Post.objects.get(id=post_id).author_id == request.user.id):
-        
+    
+    if post.author != request.user:
+        return redirect('/posts/' + str(post_id))
+
+    if request.method == 'POST':
+        form = CreationForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.id = post_id
+            post.pub_date = datetime.datetime.now()
+            post.save()
+            return redirect('posts:profile', request.user.username)
+    else:
         form = CreationForm(instance=post)
+
+    context = {
+        'form': form,
+        'is_edit': True,
+        'post_id': post_id
+    }
     
-        context = {
-            'form': form,
-            'is_edit': True,
-        }
-        
-        return render(request, 'posts/create_post.html', context)
-        #return HttpResponse(str(form.__dict__)+'____________________________'+str(post.__dir__()))
-    
-    #ниже все работает. Не трогать.
-    return redirect('/posts/' + str(post_id))
+    return render(request, 'posts/create_post.html', context)
+
